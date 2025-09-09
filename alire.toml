@@ -1,0 +1,9 @@
+name = "ada8"
+description = "A CHIP-8 emulator in Ada"
+version = "0.1.0-dev"
+
+authors = ["Caleb Stein"]
+maintainers = ["Caleb Stein <caleb@calebstein.net>"]
+licenses = "MIT"
+website = ""
+tags = []
