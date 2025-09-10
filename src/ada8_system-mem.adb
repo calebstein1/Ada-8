@@ -1,15 +1,18 @@
+with Interfaces;
+
 package body Ada8_System.Mem is
 
-   type Ada8_Mem_Array is array (MemIndex) of Byte;
+   type     Ada8_Mem_Array  is  array (MemIndex) of Byte;
 
    Ada8_Mem : Ada8_Mem_Array;
+   Ada8_SP  : Byte := 16#FF#;
 
    procedure InitFont is
       type  FontSize   is range 0 .. 79;
       type  FontArray  is array (FontSize) of Byte;
 
-      Base  : MemIndex  :=  16#050#;
-      Font  : FontArray :=  (
+      Base  : constant MemIndex  :=  16#050#;
+      Font  : constant FontArray :=  (
          16#F0#, 16#90#, 16#90#, 16#90#, 16#F0#, -- 0
          16#20#, 16#60#, 16#20#, 16#20#, 16#70#, -- 1
          16#F0#, 16#10#, 16#F0#, 16#80#, 16#F0#, -- 2
@@ -44,5 +47,31 @@ package body Ada8_System.Mem is
    begin
       Ada8_Mem (I) := B;
    end WriteByte;
+
+   procedure PushStack
+      (A  : Addr) is
+      use Interfaces;
+   begin
+      Ada8_Mem (16#100# + MemIndex (Ada8_SP)) := Byte (Shift_Right (A, 8));
+      Ada8_SP := Ada8_SP - 1;
+      Ada8_Mem (16#100# + MemIndex (Ada8_SP)) := Byte (A and 16#FF#);
+      Ada8_SP := Ada8_SP - 1;
+   end PushStack;
+
+   function PopStack return Addr is
+      Low : Byte;
+      Hi  : Byte;
+      A   : Addr;
+
+      use Interfaces;
+   begin
+      Ada8_SP := Ada8_SP + 1;
+      Low := Ada8_Mem (16#100# + MemIndex (Ada8_SP));
+      Ada8_SP := Ada8_SP + 1;
+      Hi := Ada8_Mem (16#100# + MemIndex (Ada8_SP));
+      A := Shift_Left (Word (Hi), 8) or Word (Low);
+
+      return A;
+   end PopStack;
 
 end Ada8_System.Mem;
