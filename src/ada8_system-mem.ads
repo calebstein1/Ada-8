@@ -1,7 +1,7 @@
 package Ada8_System.Mem is
 
-   type Byte is mod 256;
-   type MemIndex is range 0 .. 4095;
+   type Byte is mod 2**8;
+   type MemIndex is range 0 .. 16#FFF#;
 
    function ReadByte (I  : MemIndex) return Byte;
 
