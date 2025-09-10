@@ -1,4 +1,5 @@
 with Interfaces;
+with Ada8_System.Exceptions;  use Ada8_System.Exceptions;
 
 package body Ada8_System.Mem is
 
@@ -8,11 +9,11 @@ package body Ada8_System.Mem is
    Ada8_SP  : Byte := 16#FF#;
 
    procedure InitFont is
-      type  FontSize   is range 0 .. 79;
-      type  FontArray  is array (FontSize) of Byte;
+      type FontSize   is range 0 .. 79;
+      type FontArray  is array (FontSize) of Byte;
 
-      Base  : constant MemIndex  :=  16#050#;
-      Font  : constant FontArray :=  (
+      Base  : constant MemIndex  := 16#050#;
+      Font  : constant FontArray := (
          16#F0#, 16#90#, 16#90#, 16#90#, 16#F0#, -- 0
          16#20#, 16#60#, 16#20#, 16#20#, 16#70#, -- 1
          16#F0#, 16#10#, 16#F0#, 16#80#, 16#F0#, -- 2
@@ -52,10 +53,16 @@ package body Ada8_System.Mem is
       (A  : Addr) is
       use Interfaces;
    begin
+      if Ada8_SP = 0 then
+         raise StackOverflow;
+      end if;
+
       Ada8_Mem (16#100# + MemIndex (Ada8_SP)) := Byte (Shift_Right (A, 8));
       Ada8_SP := Ada8_SP - 1;
       Ada8_Mem (16#100# + MemIndex (Ada8_SP)) := Byte (A and 16#FF#);
-      Ada8_SP := Ada8_SP - 1;
+      if Ada8_SP > 0 then
+         Ada8_SP := Ada8_SP - 1;
+      end if;
    end PushStack;
 
    function PopStack return Addr is
@@ -65,7 +72,13 @@ package body Ada8_System.Mem is
 
       use Interfaces;
    begin
-      Ada8_SP := Ada8_SP + 1;
+      if Ada8_SP = 16#FF# then
+         raise StackUnderflow;
+      end if;
+
+      if Ada8_SP > 0 then
+         Ada8_SP := Ada8_SP + 1;
+      end if;
       Low := Ada8_Mem (16#100# + MemIndex (Ada8_SP));
       Ada8_SP := Ada8_SP + 1;
       Hi := Ada8_Mem (16#100# + MemIndex (Ada8_SP));
