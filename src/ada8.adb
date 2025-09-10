@@ -7,4 +7,5 @@ procedure Ada8 is
    use Ada.Text_IO;
 begin
    Mem.InitFont;
+   Display.Update_Display;
 end Ada8;
