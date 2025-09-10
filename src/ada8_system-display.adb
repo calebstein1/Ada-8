@@ -6,7 +6,7 @@ package body Ada8_System.Display is
    type ScanLine    is new Interfaces.Unsigned_64;
    type Display     is array (DisplayIdx) of ScanLine;
 
-   D : Display;
+   D : Display := (others => 0);
 
    procedure Draw_Sprite
       (S : Sprite;

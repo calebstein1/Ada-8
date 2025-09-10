@@ -5,8 +5,8 @@ package body Ada8_System.Mem is
 
    type     Ada8_Mem_Array  is  array (MemIndex) of Byte;
 
-   Ada8_Mem : Ada8_Mem_Array;
-   Ada8_SP  : Byte := 16#FF#;
+   Ada8_Mem : Ada8_Mem_Array  := (others => 0);
+   Ada8_SP  : Byte            := 16#FF#;
 
    procedure InitFont is
       type FontSize   is range 0 .. 79;
