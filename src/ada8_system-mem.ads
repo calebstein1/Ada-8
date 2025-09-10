@@ -7,15 +7,15 @@ package Ada8_System.Mem is
    type     MemIndex  is  range 0 .. 16#FFF#;
    subtype  Addr      is  Word  range 0 .. 16#FFF#;
 
-   procedure InitFont;
+   procedure Init_Font;
 
-   function ReadByte (I  : MemIndex) return Byte;
-   procedure WriteByte
+   function Read_Byte (I  : MemIndex) return Byte;
+   procedure Write_Byte
       (I  : MemIndex;
        B  : Byte);
 
-   procedure PushStack
+   procedure Push_Stack
       (A  : Addr);
-   function PopStack return Addr;
+   function Pop_Stack return Addr;
 
 end Ada8_System.Mem;

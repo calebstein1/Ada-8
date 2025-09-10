@@ -8,7 +8,7 @@ package body Ada8_System.Mem is
    Ada8_Mem : Ada8_Mem_Array  := (others => 0);
    Ada8_SP  : Byte            := 16#FF#;
 
-   procedure InitFont is
+   procedure Init_Font is
       type FontSize   is range 0 .. 79;
       type FontArray  is array (FontSize) of Byte;
 
@@ -35,21 +35,21 @@ package body Ada8_System.Mem is
       for I in Font'Range loop
          Ada8_Mem (Base + MemIndex (I)) := Font (I);
       end loop;
-   end InitFont;
+   end Init_Font;
 
-   function ReadByte (I  : MemIndex) return Byte is
+   function Read_Byte (I  : MemIndex) return Byte is
    begin
       return Ada8_Mem (I);
-   end ReadByte;
+   end Read_Byte;
 
-   procedure WriteByte
+   procedure Write_Byte
       (I  : MemIndex;
        B  : Byte) is
    begin
       Ada8_Mem (I) := B;
-   end WriteByte;
+   end Write_Byte;
 
-   procedure PushStack
+   procedure Push_Stack
       (A  : Addr) is
       use Interfaces;
    begin
@@ -63,9 +63,9 @@ package body Ada8_System.Mem is
       if Ada8_SP > 0 then
          Ada8_SP := Ada8_SP - 1;
       end if;
-   end PushStack;
+   end Push_Stack;
 
-   function PopStack return Addr is
+   function Pop_Stack return Addr is
       Low : Byte;
       Hi  : Byte;
       A   : Addr;
@@ -85,6 +85,6 @@ package body Ada8_System.Mem is
       A := Shift_Left (Word (Hi), 8) or Word (Low);
 
       return A;
-   end PopStack;
+   end Pop_Stack;
 
 end Ada8_System.Mem;
