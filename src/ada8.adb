@@ -1,4 +1,5 @@
 with Ada.Text_IO;
+with Ada8_System.Display;
 with Ada8_System.Mem;
 use Ada8_System;
 
