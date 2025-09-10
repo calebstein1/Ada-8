@@ -1,6 +1,7 @@
 with Ada8_System.Mem;
+use Ada8_System;
 
 procedure Ada8 is
 begin
-   null;
+   Mem.InitFont;
 end Ada8;
