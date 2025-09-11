@@ -65,11 +65,11 @@ package body Ada8_System.Mem is
    end Push_Stack;
 
    function Pop_Stack return Addr is
+      use Interfaces;
+
       Low : Byte;
       Hi  : Byte;
       A   : Addr;
-
-      use Interfaces;
    begin
       if Ada8_SP = 16#FF# then
          raise StackUnderflow;
