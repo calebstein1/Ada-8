@@ -11,16 +11,17 @@ package body Ada8_System.Display is
    D : Display := (others => 0);
 
    procedure Update_Display is
-      P : ScanLine;
-
       use Ada.Characters.Latin_1;
       use Ada.Text_IO;
       use Interfaces;
+
+      type Bit is mod 2;
+      P : Bit;
    begin
       Put (ESC & "[2J" & ESC & "[H");
       for I in DisplayIdx loop
          for J in 0 .. 63 loop
-            P := D (I) and (Shift_Left (1, J));
+            P := Bit (Shift_Right (D (I), J) and 1);
             if P = 0 then
                Put (" ");
             else
