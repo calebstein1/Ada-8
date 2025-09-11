@@ -1,4 +1,3 @@
-with Interfaces;
 with Ada8_System.Exceptions;  use Ada8_System.Exceptions;
 
 package body Ada8_System.Mem is
